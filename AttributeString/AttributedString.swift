@@ -93,7 +93,7 @@ extension AttributedString {
             return Style(attributes: [.font: UIFont.systemFont(ofSize: size)])
         }
         
-        static func weithtFont(_ size: CGFloat, weight: UIFont.Weight) -> Style {
+        static func weithtFont(_ size: CGFloat, _ weight: UIFont.Weight) -> Style {
             return Style(attributes: [.font: UIFont.systemFont(ofSize: size, weight: weight)])
         }
         
@@ -106,22 +106,34 @@ extension AttributedString {
             return Style(attributes: [.foregroundColor: color])
         }
         
-        static func bgColor(_ color: UIColor) -> Style {
+        static func backgroundColor(_ color: UIColor) -> Style {
             return Style(attributes: [.backgroundColor: color])
         }
         
-        static func kern(_ kern: NSNumber) -> Style {
+        static func kern(_ kern: Float) -> Style {
             return Style(attributes: [.kern: kern])
         }
         
+        static func stroke(_ color: UIColor, _ width: Float) -> Style {
+            return Style(attributes: [.strokeColor: color, .strokeWidth: width])
+        }
+        
+        static func strokeColor(_ color: UIColor) -> Style {
+            return Style(attributes: [.strokeColor: color])
+        }
+        
+        static func strokeWidth(_ width: Float) -> Style {
+            return Style(attributes: [ .strokeWidth: width])
+        }
+        
         //删除线，颜色
-        static func strike(_ color: UIColor, _ style: Int) -> Style {
-            return Style(attributes:[.strikethroughColor: color, .strikethroughStyle: style])
+        static func strike(_ color: UIColor, _ style: NSUnderlineStyle) -> Style {
+            return Style(attributes:[.strikethroughColor: color, .strikethroughStyle: style.rawValue])
         }
         
         //删除线
-        static func strikeStyle(_ style: Int) -> Style {
-            return Style(attributes: [.strikethroughStyle: style])
+        static func strikeStyle(_ style: NSUnderlineStyle) -> Style {
+            return Style(attributes: [.strikethroughStyle: style.rawValue])
         }
         
         //删除线颜色
@@ -130,7 +142,7 @@ extension AttributedString {
         }
         
         static func underline(_ color: UIColor, _ style: NSUnderlineStyle) -> Style {
-            return Style(attributes: [.underlineColor: color, .underlineStyle: style])
+            return Style(attributes: [.underlineColor: color, .underlineStyle: style.rawValue])
         }
         
         static func underlineColor(_ color: UIColor) -> Style{
@@ -150,6 +162,9 @@ extension AttributedString {
             return Style(attributes: [.link: linkUrl])
         }
         
+        static func obliqueness(_ obl: CGFloat) -> Style {
+            return Style(attributes: [.obliqueness: obl])
+        }
     }
     
 }
@@ -212,7 +227,7 @@ extension NSMutableParagraphStyle {
 //    }
 //
 //    @discardableResult
-//    public func kern(_ kern: NSNumber) -> AttributeStyle {
+//    public func kern(_ kern: Float) -> AttributeStyle {
 //        attributes[.kern] = kern
 //        return self
 //    }

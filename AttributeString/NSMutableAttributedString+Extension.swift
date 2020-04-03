@@ -136,13 +136,13 @@ class Attributes {
     }
     //删除线，颜色
     @discardableResult
-    public func strike(_ color: UIColor, _ style: Int) -> Attributes {
+    public func strike(_ color: UIColor, _ style: NSUnderlineStyle) -> Attributes {
         return strikeStyle(style).strikeColor(color)
     }
     //删除线
     @discardableResult
-    public func strikeStyle(_ value: Int) -> Attributes {
-        attributes[.strikethroughStyle] = NSNumber(value: value)
+    public func strikeStyle(_ style: NSUnderlineStyle) -> Attributes {
+        attributes[.strikethroughStyle] = style.rawValue
         return self
     }
     
@@ -155,13 +155,13 @@ class Attributes {
     
     //下划线类型，颜色
     @discardableResult
-    public func underline(_ color: UIColor, _ style: Int) -> Attributes {
+    public func underline(_ color: UIColor, _ style: NSUnderlineStyle) -> Attributes {
         return underlineStyle(style).underlineColor(color)
     }
     //删除线
     @discardableResult
-    public func underlineStyle(_ value: Int) -> Attributes {
-        attributes[.underlineStyle] = NSNumber(value: value)
+    public func underlineStyle(_ style: NSUnderlineStyle) -> Attributes {
+        attributes[.underlineStyle] = style.rawValue
         return self
     }
     
