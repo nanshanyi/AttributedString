@@ -77,126 +77,129 @@ extension NSMutableAttributedString {
     
 }
 
-
-class Attributes {
-    fileprivate var attributes = [NSAttributedString.Key : Any]()
-    private lazy var paragraphStyle : NSMutableParagraphStyle = {
-        return NSMutableParagraphStyle()
-    }()
-    
-    @discardableResult
-    public func font(_ size: CGFloat) -> Attributes {
-        attributes[.font] = UIFont.systemFont(ofSize: size)
-        return self
-    }
-    
-    @discardableResult
-    public func boldFont(_ size: CGFloat) -> Attributes {
-        attributes[.font] = UIFont.boldSystemFont(ofSize: size)
-        return self
-    }
-    
-    @discardableResult
-    public func customFont(_ size: CGFloat, _ name: String) -> Attributes {
-        attributes[.font] = UIFont(name: name, size: size)
-        return self
-    }
-    
-    @discardableResult
-    public func weightFont(_ size: CGFloat, _ weight: UIFont.Weight) -> Attributes {
-        attributes[.font] = UIFont.systemFont(ofSize: size, weight: weight)
-        return self
-    }
-    
-    @discardableResult
-    public func color(_ color: UIColor) -> Attributes {
-        attributes[.foregroundColor] = color
-        return self
-    }
-    
-    //斜体
-    @discardableResult
-    public func oblique(_ value: Double) -> Attributes {
-        attributes[.obliqueness] = NSNumber(value: value)
-        return self
-    }
-    
-    //加粗
-    @discardableResult
-    public func expansion(_ value: Double) -> Attributes {
-        attributes[.expansion] = NSNumber(value: value)
-        return self
-    }
-    
-    //字间距
-    @discardableResult
-    public func kern(_ value: Double) -> Attributes {
-        attributes[.kern] = NSNumber(value: value)
-        return self
-    }
-    //删除线，颜色
-    @discardableResult
-    public func strike(_ color: UIColor, _ style: NSUnderlineStyle) -> Attributes {
-        return strikeStyle(style).strikeColor(color)
-    }
-    //删除线
-    @discardableResult
-    public func strikeStyle(_ style: NSUnderlineStyle) -> Attributes {
-        attributes[.strikethroughStyle] = style.rawValue
-        return self
-    }
-    
-    //删除线颜色
-    @discardableResult
-    public func strikeColor(_ color: UIColor) -> Attributes {
-        attributes[.strikethroughColor] = color
-        return self
-    }
-    
-    //下划线类型，颜色
-    @discardableResult
-    public func underline(_ color: UIColor, _ style: NSUnderlineStyle) -> Attributes {
-        return underlineStyle(style).underlineColor(color)
-    }
-    //删除线
-    @discardableResult
-    public func underlineStyle(_ style: NSUnderlineStyle) -> Attributes {
-        attributes[.underlineStyle] = style.rawValue
-        return self
-    }
-    
-    //删除线颜色
-    @discardableResult
-    public func underlineColor(_ color: UIColor) -> Attributes {
-        attributes[.underlineColor] = color
-        return self
-    }
-    
-    @discardableResult
-    public func baselineOffset(_ offset: CGFloat) -> Attributes {
-        attributes[.baselineOffset] = offset
-        return self
-    }
-    
-    //居中方式
-    @discardableResult
-    public func alignment(_ ali: NSTextAlignment) -> Attributes {
-        paragraphStyle.alignment = ali
-        attributes[.paragraphStyle] = paragraphStyle
-        return self
-    }
-    //行间距
-    @discardableResult
-    public func lineSpacing(_ lineSpacing: CGFloat) -> Attributes {
-        paragraphStyle.lineSpacing = lineSpacing
-        attributes[.paragraphStyle] = paragraphStyle
-        return self
-    }
-    //最小行高
-    @discardableResult
-    public func lineMinHeight(_ lineMinHeight: CGFloat) -> Attributes {
-        paragraphStyle.minimumLineHeight = lineMinHeight
-        attributes[.paragraphStyle] = paragraphStyle
-        return self
+extension NSMutableAttributedString {
+    class Attributes {
+        fileprivate var attributes = [NSAttributedString.Key : Any]()
+        private lazy var paragraphStyle : NSMutableParagraphStyle = {
+            return NSMutableParagraphStyle()
+        }()
+        
+        @discardableResult
+        public func font(_ size: CGFloat) -> Attributes {
+            attributes[.font] = UIFont.systemFont(ofSize: size)
+            return self
+        }
+        
+        @discardableResult
+        public func boldFont(_ size: CGFloat) -> Attributes {
+            attributes[.font] = UIFont.boldSystemFont(ofSize: size)
+            return self
+        }
+        
+        @discardableResult
+        public func customFont(_ size: CGFloat, _ name: String) -> Attributes {
+            attributes[.font] = UIFont(name: name, size: size)
+            return self
+        }
+        
+        @discardableResult
+        public func weightFont(_ size: CGFloat, _ weight: UIFont.Weight) -> Attributes {
+            attributes[.font] = UIFont.systemFont(ofSize: size, weight: weight)
+            return self
+        }
+        
+        @discardableResult
+        public func color(_ color: UIColor) -> Attributes {
+            attributes[.foregroundColor] = color
+            return self
+        }
+        
+        //斜体
+        @discardableResult
+        public func oblique(_ value: Double) -> Attributes {
+            attributes[.obliqueness] = NSNumber(value: value)
+            return self
+        }
+        
+        //加粗
+        @discardableResult
+        public func expansion(_ value: Double) -> Attributes {
+            attributes[.expansion] = NSNumber(value: value)
+            return self
+        }
+        
+        //字间距
+        @discardableResult
+        public func kern(_ value: Double) -> Attributes {
+            attributes[.kern] = NSNumber(value: value)
+            return self
+        }
+        //删除线，颜色
+        @discardableResult
+        public func strike(_ color: UIColor, _ style: NSUnderlineStyle) -> Attributes {
+            return strikeStyle(style).strikeColor(color)
+        }
+        //删除线
+        @discardableResult
+        public func strikeStyle(_ style: NSUnderlineStyle) -> Attributes {
+            attributes[.strikethroughStyle] = style.rawValue
+            return self
+        }
+        
+        //删除线颜色
+        @discardableResult
+        public func strikeColor(_ color: UIColor) -> Attributes {
+            attributes[.strikethroughColor] = color
+            return self
+        }
+        
+        //下划线类型，颜色
+        @discardableResult
+        public func underline(_ color: UIColor, _ style: NSUnderlineStyle) -> Attributes {
+            return underlineStyle(style).underlineColor(color)
+        }
+        //删除线
+        @discardableResult
+        public func underlineStyle(_ style: NSUnderlineStyle) -> Attributes {
+            attributes[.underlineStyle] = style.rawValue
+            return self
+        }
+        
+        //删除线颜色
+        @discardableResult
+        public func underlineColor(_ color: UIColor) -> Attributes {
+            attributes[.underlineColor] = color
+            return self
+        }
+        
+        @discardableResult
+        public func baselineOffset(_ offset: CGFloat) -> Attributes {
+            attributes[.baselineOffset] = offset
+            return self
+        }
+        
+        //居中方式
+        @discardableResult
+        public func alignment(_ ali: NSTextAlignment) -> Attributes {
+            paragraphStyle.alignment = ali
+            attributes[.paragraphStyle] = paragraphStyle
+            return self
+        }
+        //行间距
+        @discardableResult
+        public func lineSpacing(_ lineSpacing: CGFloat) -> Attributes {
+            paragraphStyle.lineSpacing = lineSpacing
+            attributes[.paragraphStyle] = paragraphStyle
+            return self
+        }
+        //最小行高
+        @discardableResult
+        public func lineMinHeight(_ lineMinHeight: CGFloat) -> Attributes {
+            paragraphStyle.minimumLineHeight = lineMinHeight
+            attributes[.paragraphStyle] = paragraphStyle
+            return self
+        }
     }
 }
+
+
