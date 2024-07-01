@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 extension NSMutableAttributedString {
-    
     /// 添加字符串并为此段添加对应的Attribute
     /// - Parameters:
     ///   - text: 要添加的String
@@ -25,17 +24,16 @@ extension NSMutableAttributedString {
         return self
     }
     
-    
     /// 添加Attribute作用于当前整体字符串，如果不包含传入的attribute，则增加当前特征
     /// - Parameter arrtibutes: Attribute的DIc
     @discardableResult
     func add(arrtibutes: (inout Attributes) -> ()) -> NSMutableAttributedString {
-        let range = NSRange(string.startIndex..<string.endIndex, in: string)
+        let range = NSRange(string.startIndex ..< string.endIndex, in: string)
         var attribute = Attributes()
         arrtibutes(&attribute)
-        enumerateAttributes(in: range, options: .reverse) { (oldAttribute, range, _) in
+        enumerateAttributes(in: range, options: .reverse) { oldAttribute, range, _ in
             var newAtt = oldAttribute
-            attribute.attributes.forEach { (newkey, value) in
+            for (newkey, value) in attribute.attributes {
                 if !oldAttribute.keys.contains(newkey) {
                     newAtt[newkey] = value
                 }
@@ -74,15 +72,12 @@ extension NSMutableAttributedString {
         append(attchAttri)
         return self
     }
-    
 }
 
 extension NSMutableAttributedString {
     class Attributes {
-        fileprivate var attributes = [NSAttributedString.Key : Any]()
-        private lazy var paragraphStyle : NSMutableParagraphStyle = {
-            return NSMutableParagraphStyle()
-        }()
+        fileprivate var attributes = [NSAttributedString.Key: Any]()
+        private lazy var paragraphStyle = NSMutableParagraphStyle()
         
         @discardableResult
         public func font(_ size: CGFloat) -> Attributes {
@@ -114,85 +109,91 @@ extension NSMutableAttributedString {
             return self
         }
         
-        //斜体
+        // 斜体
         @discardableResult
         public func oblique(_ value: Double) -> Attributes {
             attributes[.obliqueness] = NSNumber(value: value)
             return self
         }
         
-        //加粗
+        // 加粗
         @discardableResult
         public func expansion(_ value: Double) -> Attributes {
             attributes[.expansion] = NSNumber(value: value)
             return self
         }
         
-        //字间距
+        // 字间距
         @discardableResult
         public func kern(_ value: Double) -> Attributes {
             attributes[.kern] = NSNumber(value: value)
             return self
         }
-        //删除线，颜色
+
+        // 删除线，颜色
         @discardableResult
         public func strike(_ color: UIColor, _ style: NSUnderlineStyle) -> Attributes {
             return strikeStyle(style).strikeColor(color)
         }
-        //删除线
+
+        // 删除线
         @discardableResult
         public func strikeStyle(_ style: NSUnderlineStyle) -> Attributes {
             attributes[.strikethroughStyle] = style.rawValue
             return self
         }
         
-        //删除线颜色
+        // 删除线颜色
         @discardableResult
         public func strikeColor(_ color: UIColor) -> Attributes {
             attributes[.strikethroughColor] = color
             return self
         }
         
-        //下划线类型，颜色
+        // 下划线类型，颜色
         @discardableResult
         public func underline(_ color: UIColor, _ style: NSUnderlineStyle) -> Attributes {
             return underlineStyle(style).underlineColor(color)
         }
-        //删除线
+
+        // 删除线
         @discardableResult
         public func underlineStyle(_ style: NSUnderlineStyle) -> Attributes {
             attributes[.underlineStyle] = style.rawValue
             return self
         }
         
-        //删除线颜色
+        // 删除线颜色
         @discardableResult
         public func underlineColor(_ color: UIColor) -> Attributes {
             attributes[.underlineColor] = color
             return self
         }
         
+        // 基线偏移量
         @discardableResult
         public func baselineOffset(_ offset: CGFloat) -> Attributes {
             attributes[.baselineOffset] = offset
             return self
         }
         
-        //居中方式
+        // 居中方式
         @discardableResult
         public func alignment(_ ali: NSTextAlignment) -> Attributes {
             paragraphStyle.alignment = ali
             attributes[.paragraphStyle] = paragraphStyle
             return self
         }
-        //行间距
+
+        // 行间距
         @discardableResult
         public func lineSpacing(_ lineSpacing: CGFloat) -> Attributes {
             paragraphStyle.lineSpacing = lineSpacing
             attributes[.paragraphStyle] = paragraphStyle
             return self
         }
-        //最小行高
+
+        // 最小行高
         @discardableResult
         public func lineMinHeight(_ lineMinHeight: CGFloat) -> Attributes {
             paragraphStyle.minimumLineHeight = lineMinHeight
@@ -201,5 +202,3 @@ extension NSMutableAttributedString {
         }
     }
 }
-
-

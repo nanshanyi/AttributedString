@@ -12,15 +12,16 @@ import UIKit
 struct AttributedString: CustomStringConvertible {
     let attributedString: NSAttributedString
     init(stringLiteral: String) {
-        attributedString = NSMutableAttributedString(string: stringLiteral)
+        self.attributedString = NSMutableAttributedString(string: stringLiteral)
     }
+
     var description: String {
         return String(describing: attributedString)
     }
 }
 
+// MARK: - ExpressibleByStringInterpolation
 
-//MARK: - ExpressibleByStringInterpolation
 extension AttributedString: ExpressibleByStringInterpolation {
     init(stringInterpolation: StringInterpolation) {
         self.attributedString = NSAttributedString(attributedString: stringInterpolation.attributedString)
@@ -37,23 +38,21 @@ extension AttributedString: ExpressibleByStringInterpolation {
             let astr = NSAttributedString(string: literal)
             attributedString.append(astr)
         }
-
     }
 }
 
+// MARK: - appendInterpolation
 
-//MARK: - appendInterpolation
 extension AttributedString.StringInterpolation {
-    
     func appendInterpolation(_ string: String, _ attributes: AttributedString.Attributes...) {
-        var attr = [NSAttributedString.Key : Any]()
-        attributes.forEach { attr.merge($0.attributes, uniquingKeysWith: {$1})}
+        var attr = [NSAttributedString.Key: Any]()
+        attributes.forEach { attr.merge($0.attributes, uniquingKeysWith: { $1 }) }
         let astr = NSAttributedString(string: string, attributes: attr)
-        self.attributedString.append(astr)
+        attributedString.append(astr)
     }
     
     func appendInterpolation(_ string: AttributedString) {
-        self.attributedString.append(string.attributedString)
+        attributedString.append(string.attributedString)
     }
     
 //    func appendInterpolation(_ string: String, _ attributes: AttributeStyle) {
@@ -65,11 +64,12 @@ extension AttributedString.StringInterpolation {
         let attch = NSTextAttachment()
         attch.image = image
         attch.bounds = bounds
-        self.attributedString.append(NSAttributedString(attachment: attch))
+        attributedString.append(NSAttributedString(attachment: attch))
     }
 }
 
-//MARK: - Attribute
+// MARK: - Attribute
+
 extension AttributedString {
     struct Attributes {
         fileprivate let attributes: [NSAttributedString.Key: Any]
@@ -77,14 +77,14 @@ extension AttributedString {
         /// 增加ParagraphStyle
         /// - Parameter paragraphStyle: NSParagraphStyle
         /// - Returns: Attributes
-        static func paragraphStyle(_ paragraphStyle: NSParagraphStyle) ->Attributes {
+        static func paragraphStyle(_ paragraphStyle: NSParagraphStyle) -> Attributes {
             return Attributes(attributes: [.paragraphStyle: paragraphStyle])
         }
         
         /// 增加ParagraphStyle支持，建议使用尾随闭包方式，直接跟paragraphStyle{$0.alignment}
         /// - Parameter paragraph: paragraphClosure
         /// - Returns: Attributes
-        static func paragraphStyle(_ paragraph: (inout NSMutableParagraphStyle) -> ()) ->Attributes {
+        static func paragraphStyle(_ paragraph: (inout NSMutableParagraphStyle) -> ()) -> Attributes {
             var pStyle = NSMutableParagraphStyle()
             paragraph(&pStyle)
             return Attributes(attributes: [.paragraphStyle: pStyle])
@@ -124,11 +124,11 @@ extension AttributedString {
         }
         
         static func strokeWidth(_ width: Float) -> Attributes {
-            return Attributes(attributes: [ .strokeWidth: width])
+            return Attributes(attributes: [.strokeWidth: width])
         }
         
         static func strike(_ color: UIColor, _ style: NSUnderlineStyle) -> Attributes {
-            return Attributes(attributes:[.strikethroughColor: color, .strikethroughStyle: style.rawValue])
+            return Attributes(attributes: [.strikethroughColor: color, .strikethroughStyle: style.rawValue])
         }
         
         static func strikeStyle(_ style: NSUnderlineStyle) -> Attributes {
@@ -143,11 +143,11 @@ extension AttributedString {
             return Attributes(attributes: [.underlineColor: color, .underlineStyle: style.rawValue])
         }
         
-        static func underlineColor(_ color: UIColor) -> Attributes{
+        static func underlineColor(_ color: UIColor) -> Attributes {
             return Attributes(attributes: [.underlineColor: color])
         }
         
-        static func underlineStyle(_ style: NSUnderlineStyle) -> Attributes{
+        static func underlineStyle(_ style: NSUnderlineStyle) -> Attributes {
             return Attributes(attributes: [.underlineStyle: style])
         }
         
@@ -164,44 +164,45 @@ extension AttributedString {
             return Attributes(attributes: [.obliqueness: obl])
         }
     }
-    
 }
-//MARK: - NSMutableParagraphStyle 如有需要可自行扩展
-extension NSMutableParagraphStyle {
-    
+
+// MARK: - NSMutableParagraphStyle 如有需要可自行扩展
+
+public extension NSMutableParagraphStyle {
     @discardableResult
-    public func lineSpacing(_ lineSp: CGFloat) -> NSMutableParagraphStyle {
+    func lineSpacing(_ lineSp: CGFloat) -> NSMutableParagraphStyle {
         lineSpacing = lineSp
         return self
     }
     
     @discardableResult
-    public func paragraphSpacing(_ paragraphSp: CGFloat) -> NSMutableParagraphStyle {
+    func paragraphSpacing(_ paragraphSp: CGFloat) -> NSMutableParagraphStyle {
         paragraphSpacing = paragraphSp
         return self
     }
     
     @discardableResult
-    public func alignment(_ ali: NSTextAlignment) -> NSMutableParagraphStyle {
+    func alignment(_ ali: NSTextAlignment) -> NSMutableParagraphStyle {
         alignment = ali
         return self
     }
     
     @discardableResult
-    public func lineBreak(_ breakMode: NSLineBreakMode) -> NSMutableParagraphStyle {
+    func lineBreak(_ breakMode: NSLineBreakMode) -> NSMutableParagraphStyle {
         lineBreakMode = breakMode
         return self
     }
     
     @discardableResult
-    public func lineMinHeight(_ lineMinHeight: CGFloat) -> NSMutableParagraphStyle {
+    func lineMinHeight(_ lineMinHeight: CGFloat) -> NSMutableParagraphStyle {
         minimumLineHeight = lineMinHeight
         return self
     }
 }
-//MARK: - Style的另一种实现方式,链式语法调用
 
-//class AttributeStyle {
+// MARK: - Style的另一种实现方式,链式语法调用
+
+// class AttributeStyle {
 //    fileprivate var attributes: [NSAttributedString.Key: Any] = [:]
 //    private lazy var paragraphStyle : NSMutableParagraphStyle = {
 //        let ps = NSMutableParagraphStyle()
@@ -297,4 +298,4 @@ extension NSMutableParagraphStyle {
 //        return self
 //    }
 //
-//}
+// }
